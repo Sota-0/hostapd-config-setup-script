@@ -26,6 +26,7 @@ PRESET office_ap          # Save current config as a preset
 load office_ap            # Load a preset from saved configs
 show office_ap            # Display contents of a preset
 HELP                      # Show help menu
+```
 
 ## 📁 Presets
 
@@ -101,3 +102,4 @@ channel=6
 auth_algs=1
 wep_default_key=0
 wep_key0=SuperSecretPassword
+```
