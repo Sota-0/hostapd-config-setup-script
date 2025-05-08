@@ -1,105 +1,134 @@
-# 🛠️ Hostapd Configurator CLI Tool
+# 🧰 Hostapd Configuration Assistant
 
-A terminal-based Python utility for interactively configuring `hostapd.conf` files. This tool allows users to set parameters, save/load presets, and write configuration files using a color-coded command-line interface.
-
----
-
-## 📖 Features
-
-- Interactive CLI interface for editing `hostapd.conf`
-- Color-coded indicators for parameters that need configuration
-- Save and load configuration presets from `hostapd_presets/`
-- Display current configuration contents
-- Write directly to `hostapd.conf`
-- Built-in help menus for each section
-- Option to configure Wi-Fi settings like interface, SSID, BSSID, channel, and WEP keys
+A terminal-based interactive assistant for configuring and managing `hostapd.conf` files. This Python tool streamlines the process of setting up Wi-Fi access points by allowing you to dynamically modify settings, save/load presets, and write valid `hostapd` configurations with a clean, color-coded interface.
 
 ---
 
-## 💻 Example Commands
+## ✨ Features
 
-```bash
-SET ssid MyNetwork        # Set SSID
-SET interface wlan0       # Set interface
-WRITE                     # Write current config to hostapd.conf
-PRESET office_ap          # Save current config as a preset
-load office_ap            # Load a preset from saved configs
-show office_ap            # Display contents of a preset
-HELP                      # Show help menu
+- 🎨 Color-coded terminal UI using `colorama`
+- ⚙️ Dynamic `SET <option> <value>` commands to update `hostapd.conf` settings
+- 💾 Save and load presets from the `hostapd_presets/` folder
+- 👁️ Live preview of your configuration
+- 🆘 Built-in help menus with usage examples
+- 📁 Easily export and apply changes to `hostapd.conf`
+
+---
+
+## ⚙️ Supported Configuration Options
+
+You can edit the following `hostapd.conf` parameters:
+- `interface` — Network interface (e.g., wlan0)
+- `driver` — Wireless driver (e.g., nl80211)
+- `ssid` — Network SSID
+- `bssid` — MAC address of the access point
+- `hw_mode` — Band: `g` for 2.4GHz, `a` for 5GHz
+- `channel` — Wi-Fi channel
+- `auth_algs` — Authentication mode
+- `wep_default_key` — WEP key index (0–3)
+- `wep_key0` — WEP encryption key
+
+Changes are reflected in real time via the color-coded interface.
+
+---
+
+## 🗂️ Preset Management
+
+Presets are saved in the `hostapd_presets/` directory and can be:
+- 🔄 **Loaded** using: `load <preset>`
+- 👁️ **Viewed** using: `show <preset>`
+- 💾 **Saved** with: `PRESET <name>`
+
+Example:
+
+```
+$> PRESET office_ap
+$> load office_ap
+$> show office_ap
 ```
 
-## 📁 Presets
-
-Presets are stored in the `hostapd_presets/` directory as `.conf` files. These presets represent fully configured `hostapd.conf` files that can be loaded back into the script for reuse. You can save your current configuration as a preset and later load it when needed.
-
-### Preset Commands
-
-- **PRESET <name>**: Save the current `hostapd.conf` configuration as a preset.
-  - Example: `PRESET OfficeAP`
-  
-- **load <preset>**: Load a previously saved preset into `hostapd.conf`.
-  - Example: `load OfficeAP`
-
-- **show <preset>**: Display the contents of a preset.
-  - Example: `show OfficeAP`
-
-- **back**: Return to the previous menu.
-
 ---
 
-## 🖥️ Interactive Setup Flow
+## 🚀 Getting Started
 
-The tool is divided into two main options, allowing for both configuration and preset management.
+### 1. Clone the Repository
 
-### 1. Hostapd Setup Menu (Option 1)
-
-When selecting the **Setup** option, the following process will unfold:
-
-1. **Display Current Configuration**: The tool will show the current `hostapd.conf` parameters, with color-coded indicators:
-   - **Green**: Parameters that have been successfully configured.
-   - **Red**: Parameters that are still pending configuration.
-   
-2. **Set Parameters**: Use the `SET [option] [new_value]` command to modify any parameter, such as SSID, BSSID, channel, etc.
-   - Example: `SET ssid MyNetwork`
-   
-3. **Write to File**: After completing all configurations, use the `WRITE` command to save your settings into the `hostapd.conf` file.
-   - Example: `WRITE`
-
-4. **Save as Preset**: You can save your configuration as a preset for future use by typing `PRESET <name>`.
-   - Example: `PRESET OfficeAP`
-
-5. **Help Menu**: Access specific help information about the available commands by typing `HELP`.
-
-6. **Exit**: To safely exit the setup process, type `exit`.
-
-### 2. Preset Management (Option 2)
-
-The **Preset** option allows you to manage the saved presets stored in the `hostapd_presets/` directory.
-
-1. **Show Presets**: Type `show` to list all available preset files.
-
-2. **Load Preset**: You can load any preset configuration using the `load <preset_name>` command.
-   - Example: `load OfficeAP`
-   
-3. **Display Preset Content**: Use `show <preset_name>` to view the contents of a saved preset.
-   - Example: `show OfficeAP`
-
-4. **Back**: Type `back` to return to the previous menu.
-
----
-
-## 📜 Example `hostapd.conf`
-
-Once configured, your `hostapd.conf` might look something like this:
-
-```ini
-interface=wlan0
-driver=nl80211
-ssid=MyNetwork
-bssid=00:14:22:01:23:45
-hw_mode=g
-channel=6
-auth_algs=1
-wep_default_key=0
-wep_key0=SuperSecretPassword
 ```
+git clone https://github.com/yourusername/hostapd-config-assistant.git
+cd hostapd-config-assistant
+```
+
+### 2. Install Required Packages
+
+```
+pip install colorama
+```
+
+### 3. Run the Tool
+
+```
+python3 hostapd_setup.py
+```
+
+---
+
+## 🖥️ Example Session
+
+```
+Hostapd : 1.SETUP  or  2.PRESET
+$> 1
+$> SET ssid MyNetwork
+$> SET bssid 00:11:22:33:44:55
+$> SET channel 6
+$> WRITE
+$> PRESET home_ap
+```
+
+---
+
+## 📋 Notes
+
+- This tool **does not** start `hostapd`; it only manages the configuration file.
+- Ensure the interface and driver are valid and supported on your system.
+- Presets are stored as `.conf` files and can be reused or edited manually.
+
+---
+
+## 📁 Project Structure
+
+```
+hostapd-config-assistant/
+├── hostapd_setup.py
+├── hostapd.conf
+└── hostapd_presets/
+    └── example_preset.conf
+```
+
+---
+
+## 🛠 Built With
+
+- Python 3.x
+- [colorama](https://pypi.org/project/colorama/)
+
+Install dependencies with:
+
+```
+pip install colorama
+```
+or 
+```
+pip install -r requirements.txt
+```
+
+---
+
+## 📝 License
+
+MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+## 🤝 Contributions
+
+PRs, issues, and suggestions are welcome! If you’d like to improve or extend the tool, feel free to fork and submit a pull request.
