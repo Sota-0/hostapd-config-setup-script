@@ -189,7 +189,11 @@ def show_files_in_folder(folder_path):
         return
     
 
-    print(Fore.GREEN +  "Type ' help ' for help menu")
+    print(Fore.GREEN +  "Type ", "' help '", Fore.GREEN + " for help menu")
+    print("")
+    print(Fore.MAGENTA + "to load preset: ", "load [ preset ]")
+    print(Fore.CYAN + "to show preset contents: ", "show [ preset ]")
+    print("")
     print(Fore.LIGHTRED_EX + "----", Fore.BLUE + f"Presets" , Fore.LIGHTRED_EX +  "----")
     
     for file in files:
@@ -304,7 +308,8 @@ HELP                   - Displays the help menu with command and option info
 
           
 load < option >        - Loads a pre-saved preset from the list
-
+show < option >
+          
 back                   - goes back to previous menu
 
 
@@ -392,7 +397,7 @@ wep_key0={wep_key0}
             # Check if all items in ready_colors are equal to Fore.GREEN
             if all(item == Fore.GREEN for item in ready_colors):
                 print(Fore.GREEN + "READY TO WRITE  -  ' WRITE ' in all caps to write .conf file")
-                print(Fore.MAGENTA + "Type ' PRESET [Name] ' to save as preset")
+                print(Fore.MAGENTA + "Type ' PRESET ' to save as preset")
             
             
 
@@ -451,8 +456,18 @@ wep_key0={wep_key0}
                 else:
                     print(Fore.RED + "Usage: load <preset_name>")
             
-
-    
+            elif command.lower().startswith("show "):
+                os.system("clear")
+                show_files_in_folder(folder_path)
+                cc = command.split() # split the user input into 2 sections. makes it easier to read different parts of input
+                if len(cc) == 2:
+                    read = cc[1]
+                    with open(f"hostapd_presets/{read}.conf", "r") as read_file:
+                        aaaaaa = read_file.read()
+                        print(aaaaaa)
+            else:
+                print("Please Enter Valid Input")
+                time.sleep(2)
     else:
         print("Please Enter Valid Input")
         time.sleep(2)
